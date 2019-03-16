@@ -1,0 +1,26 @@
+version: '2'
+
+volumes:
+  node_modules: # To ignore node_modules
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./.data:/data/db
+  node:
+    build: .
+    depends_on:
+      - mongo
+    environment:
+      WAIT_HOSTS: mongo:27017
+    links:
+      - mongo
+    ports:
+      - 3000:3000
+    restart: always
+    volumes:
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
