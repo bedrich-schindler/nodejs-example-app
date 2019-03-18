@@ -8,8 +8,9 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator: email => /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(email),
       message: props => `Path \`email\` (\`${props.value}\`) is not a valid email.`,
+      validator: email => /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(email),
+      type: 'invalidEmail',
     },
   },
   firstName: {
