@@ -10,4 +10,4 @@ RUN         chmod +x /wait
 
 EXPOSE      3000
 
-CMD         npm install && /wait && npm start
+CMD         npm install && /wait && npm run dev
