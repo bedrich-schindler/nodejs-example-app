@@ -9,34 +9,34 @@ const router = Router();
 Object.values(routerConfig).forEach((route) => {
   switch (route.method) {
     case HttpMethodsEnum.POST:
-      if (route.isAnonymous) {
+      if (!route.security) {
         router.route(route.path).post(route.action);
       } else {
-        router.route(route.path).post(authMiddleware, route.action);
+        router.route(route.path).post(authMiddleware(route), route.action);
       }
 
       break;
     case HttpMethodsEnum.PUT:
-      if (route.isAnonymous) {
+      if (!route.security) {
         router.route(route.path).put(route.action);
       } else {
-        router.route(route.path).put(authMiddleware, route.action);
+        router.route(route.path).put(authMiddleware(route), route.action);
       }
 
       break;
     case HttpMethodsEnum.DELETE:
-      if (route.isAnonymous) {
+      if (!route.security) {
         router.route(route.path).delete(route.action);
       } else {
-        router.route(route.path).delete(authMiddleware, route.action);
+        router.route(route.path).delete(authMiddleware(route), route.action);
       }
 
       break;
     default:
-      if (route.isAnonymous) {
+      if (!route.security) {
         router.route(route.path).get(route.action);
       } else {
-        router.route(route.path).get(authMiddleware, route.action);
+        router.route(route.path).get(authMiddleware(route), route.action);
       }
 
       break;

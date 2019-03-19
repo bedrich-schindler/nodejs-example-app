@@ -61,7 +61,7 @@ export const deleteUserAction = async (req, res) => {
   }
 
   try {
-    await UserModel.remove({ _id: req.params.id });
+    await UserModel.remove({ id: req.params.id });
   } catch (e) {
     return handleErrorResponse(res, e);
   }
@@ -84,7 +84,7 @@ export const editUserAction = async (req, res) => {
     return handleItemNotFoundResponse(res);
   }
 
-  user = userInFormatter(user, req.body);
+  user = userInFormatter(user, req.body, req.authData.userData.role);
 
   try {
     user = await user.save();

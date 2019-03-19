@@ -1,8 +1,13 @@
 import jwt from 'jsonwebtoken';
-import { UNAUTHORIZED } from 'http-status-codes';
+import {
+  FORBIDDEN,
+  UNAUTHORIZED,
+} from 'http-status-codes';
+import { Types } from 'mongoose';
 import config from '../config/config';
+import UserModel from '../model/userModel';
 
-const authMiddleware = async (req, res, next) => {
+const authMiddleware = routeData => async (req, res, next) => {
   let token = req.headers.authorization;
 
   if (token && token.startsWith('Bearer ')) {
@@ -11,7 +16,44 @@ const authMiddleware = async (req, res, next) => {
 
   if (token) {
     try {
-      await jwt.verify(token, config.secret);
+      const tokenData = await jwt.verify(token, config.secret);
+      let userData = null;
+
+      try {
+        if (Types.ObjectId.isValid(tokenData.id)) {
+          userData = await UserModel.findById(tokenData.id);
+        }
+      } catch (e) {
+        return res.status(UNAUTHORIZED).send({
+          message: 'JWT token content is not valid.',
+        });
+      }
+
+      if (userData === null) {
+        return res.status(UNAUTHORIZED).send({
+          message: 'JWT token content is not valid.',
+        });
+      }
+
+      req.authData = {
+        userData,
+        routeData,
+      };
+
+      if (!routeData.security) {
+        next();
+      }
+
+      if (
+        !(
+          (routeData.security.roles && routeData.security.roles.includes(userData.role))
+          || (routeData.security.allowOwnerAccess === true && userData.id === req.params.id)
+        )
+      ) {
+        return res.status(FORBIDDEN).send({
+          message: 'Insufficient permissions.',
+        });
+      }
     } catch (e) {
       return res.status(UNAUTHORIZED).send({
         message: 'JWT token is not valid.',

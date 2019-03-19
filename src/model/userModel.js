@@ -2,6 +2,9 @@ import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import mongooseUniqueValidator from 'mongoose-unique-validator';
 
+export const ROLE_USER = 'ROLE_USER';
+export const ROLE_ADMIN = 'ROLE_ADMIN';
+
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -25,6 +28,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 8,
+  },
+  role: {
+    type: String,
+    enum: [
+      ROLE_ADMIN,
+      ROLE_USER,
+    ],
+    required: true,
   },
 });
 

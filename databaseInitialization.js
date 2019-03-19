@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import UserModel from './src/model/userModel';
 import config from './src/config/config';
+import UserModel from './src/model/userModel';
 
 /* eslint-disable no-console */
 
@@ -16,6 +16,7 @@ const user = new UserModel({
   firstName: 'Jan',
   lastName: 'Novak',
   password: 'password',
+  role: 'ROLE_ADMIN',
 });
 
 user.save((err) => {

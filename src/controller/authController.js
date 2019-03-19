@@ -9,6 +9,7 @@ import {
   credentialsInFormatter,
   credentialsOutFormatter,
 } from '../formatter/authFormatter';
+import { userJwtTokenOutFormatter } from '../formatter/userFormatter';
 import { handleErrorResponse } from '../helpers/errorResponseHelper';
 
 export const loginAction = async (req, res) => {
@@ -34,7 +35,7 @@ export const loginAction = async (req, res) => {
   }
 
   const token = jwt.sign(
-    { ...user },
+    userJwtTokenOutFormatter(user),
     config.secret,
   );
 
