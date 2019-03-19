@@ -3,6 +3,7 @@ import {
   OK,
   NO_CONTENT,
 } from 'http-status-codes';
+import { Types } from 'mongoose';
 import UserModel from '../model/userModel';
 import {
   userDetailOutFormatter,
@@ -18,7 +19,9 @@ export const getUserAction = async (req, res) => {
   let user = null;
 
   try {
-    user = await UserModel.findById(req.params.id);
+    if (Types.ObjectId.isValid(req.params.id)) {
+      user = await UserModel.findById(req.params.id);
+    }
   } catch (e) {
     return handleErrorResponse(res, e);
   }
@@ -46,7 +49,9 @@ export const deleteUserAction = async (req, res) => {
   let user = null;
 
   try {
-    user = await UserModel.findById(req.params.id);
+    if (Types.ObjectId.isValid(req.params.id)) {
+      user = await UserModel.findById(req.params.id);
+    }
   } catch (e) {
     return handleErrorResponse(res, e);
   }
@@ -68,7 +73,9 @@ export const editUserAction = async (req, res) => {
   let user = null;
 
   try {
-    user = await UserModel.findById(req.params.id);
+    if (Types.ObjectId.isValid(req.params.id)) {
+      user = await UserModel.findById(req.params.id);
+    }
   } catch (e) {
     return handleErrorResponse(res, e);
   }

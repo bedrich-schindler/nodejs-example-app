@@ -55,5 +55,4 @@ UserSchema.methods.comparePassword = async function comparePassword(passwordToCo
   return bcrypt.compare(passwordToCompare, password);
 };
 
-
 export default mongoose.model('user', UserSchema);
