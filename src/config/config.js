@@ -8,6 +8,9 @@ export default {
   database: {
     connectionString: 'mongodb://mongo:27017/nodejs_example_app',
   },
-  // Other configuration
-  secret: 'KpDLYapXAtLzYn8HYDE6ZNmvbGg5kESzqDNcx8ekJaMayYGyyZWPnp7sR3DIBiBGohQfREbFycJ3YlhkxIqkpkgFER4mFLkosaLa7vHAwDnL0ztedfjDM7G3aXfbttIo',
+  // Security configuration
+  security: {
+    expiresIn: '24h',
+    secret: 'ApDLYapXAtLzYn8HYDE6ZNmvbGg5kESzqDNcx8ekJaMayYGyyZWPnp7sR3DIBiBGohQfREbFycJ3YlhkxIqkpkgFER4mFLkosaLa7vHAwDnL0ztedfjDM7G3aXfbttIo',
+  },
 };

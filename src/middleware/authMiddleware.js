@@ -16,7 +16,7 @@ const authMiddleware = routeData => async (req, res, next) => {
 
   if (token) {
     try {
-      const tokenData = await jwt.verify(token, config.secret);
+      const tokenData = await jwt.verify(token, config.security.secret);
       let userData = null;
 
       try {

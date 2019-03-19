@@ -36,7 +36,8 @@ export const loginAction = async (req, res) => {
 
   const token = jwt.sign(
     userJwtTokenOutFormatter(user),
-    config.secret,
+    config.security.secret,
+    { expiresIn: config.security.expiresIn },
   );
 
   return res.status(OK).send(credentialsOutFormatter({ token }));
